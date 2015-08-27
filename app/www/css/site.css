@@ -1,0 +1,30 @@
+.fontColor, body section p, body section ul {
+  color: seagreen; }
+
+body #firstName {
+  margin-left: 50px; }
+body #lastName {
+  margin-left: 60px; }
+body #email {
+  margin-left: 98px; }
+body #comments {
+  margin-left: 70px; }
+body div:focus {
+  font-size: 30px; }
+body header {
+  color: deepskyblue;
+  font-family: monospace; }
+body section p {
+  font-weight: none;
+  font-family: monospace;
+  font-size: 16px; }
+body section ul {
+  font-weight: none;
+  font-family: monospace;
+  font-size: 16px; }
+  body section ul li:hover {
+    font-size: 32px; }
+body div label {
+  font-weight: none;
+  font-family: monospace;
+  font-size: 16px; }

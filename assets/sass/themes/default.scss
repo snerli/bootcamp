@@ -1,0 +1,151 @@
+$headerColor: deepskyblue;
+$fontColor: seagreen;
+
+@import "themes/default";
+
+$marginfirstName: 50px;
+$marginlastName: 60px;
+$marginEmail: 98px;
+$margintextArea: 70px;
+
+@mixin myFirstmixin ($fontWeight:bold, $fontFamily:monospace, $fontSize:32px) {
+  font-weight: $fontWeight;
+  font-family: $fontFamily;
+  font-size: $fontSize;
+}
+
+.fontColor {
+  color: $fontColor;
+}
+
+body {
+
+  #firstName {
+    margin-left: $marginfirstName;
+  }
+  #lastName {
+    margin-left: $marginlastName;
+  }
+  #email {
+    margin-left: $marginEmail;
+  }
+  #comments {
+    margin-left: $margintextArea;
+  }
+
+  div {
+    &:focus {
+      font-size: 30px;
+    }
+  }
+
+  header {
+    color: $headerColor;
+    font-family: monospace;
+  }
+
+  section {
+    p {
+      @extend .fontColor;
+      @include myFirstmixin($fontWeight:none, $fontSize:16px);
+    }
+
+    ul {
+      @extend .fontColor;
+      @include myFirstmixin($fontWeight:none, $fontSize:16px);
+      li:hover {
+        font-size: 32px;
+      }
+    }
+  }
+
+  div {
+    label {
+      @include myFirstmixin($fontWeight:none, $fontSize:16px);
+    }
+  }
+}
+
+// usage of flex boxes
+div {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  background-color: blue;
+
+  header {
+    flex-grow: 1;
+    background-color: white;
+    color: black;
+  }
+  footer {
+    flex-grow: 1;
+    background-color: #757575;
+  }
+  article {
+    flex-grow: 5;
+
+    display: flex;
+    flex-direction: row;
+
+    section {
+      flex-grow: 8;
+    }
+    aside {
+      flex-grow: 1;
+    }
+  }
+}
+
+/* Image rotate */
+
+@import "/Users/snerli/bootcamp_08172015/assets/sass/libs/transform";
+@import "/Users/snerli/bootcamp_08172015/assets/sass/libs/animate";
+
+.col {
+  box-sizing: border-box;
+  float: left;
+  border: 1px solid black;
+}
+
+@include animate-setup(img-rotate) {
+	to {
+		@include transform("rotate(360deg)", "0px 0px 0");
+	};
+};
+
+img {
+	position:absolute;
+	top:300px;
+	left:300px;
+	width:200px;
+	height:200px;
+	@include animate-me(img-rotate, 1s, linear);
+
+}
+
+
+/*
+
+.container {
+  width : 100%;
+
+  .row {
+    width: 100%;
+
+    .col {
+      float: left;
+      width: 25%;
+      box-sizing: border-box;
+      border: 1px solid blue;
+  }
+}
+}
+
+*/

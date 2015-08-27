@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    Intuit Bootcamp
+  </head>
+  <body>
+    <script>
+
+      "use strict"
+
+      // property descriptors -
+
+      var o = {};
+
+      o.name = "Eric Greene";
+      o._firstName = "Eric";
+      console.log(o.name);
+
+      Object.defineProperty(o, "firstName", {
+        enumerable: true, // enumerate over first name
+        configurable: false, // reconfigure the prop or not
+        //value: "Eric", // Instead of these two parameters you can use getters and setters
+        //writable: false,
+
+        set: function(value) {
+          this._firstName = value;
+        },
+        get: function() {
+          return this._firstName;
+        }
+
+      });
+
+      // Reconfiguring prop here
+      /*
+      Object.defineProperty(o, "firstName", {
+        enumerable: true, // enumerate over first name
+        configurable: true, // reconfigure the prop or not
+        value: "Eric",
+        writable: true
+      });*/
+
+      for (var prop in o) {
+        console.log(prop);
+      }
+
+      // Setter gets called automatically
+      // Getter also gets automatically and
+      // these can be used to avoid explicit calls
+      o.firstName = "Bob";
+
+      console.dir(o);
+
+    </script>
+  </body>
+</html>

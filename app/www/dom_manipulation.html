@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Intuit Bootcamp</title>
+    <script src="libs/jquery/dist/jquery.js"></script>
+    <script src="libs/dojo/dojo-config.js"></script>
+    <script src="libs/dojo/dojo.js"></script>
+
+  </head>
+  <body>
+
+    <div id="placeholder"></div>
+
+    <ul>
+      <li>Item 1</li>
+      <li>Item 2</li>
+      <li>Item 3</li>
+      <li>Item 4</li>
+      <li>Item 5</li>
+
+    </ul>
+    <script>
+
+      // it is a detached dom element
+      var domElement = document.createElement("div");
+      domElement.innerHTML = "Motel 6 is good";
+
+      // toHTML - will not create a correct dom with all the info. So, this will lose some info
+      document.getElementById("placeholder")
+        .appendChild(domElement);
+
+      console.dir(domElement);
+
+      //create element
+      var domElement2 = $("<div>");
+      console.dir(domElement2);
+      $("#placeholder").append(domElement2);
+
+      // the below code will not clone the domElement each time, it will actually move the domElement in the tree
+      var liNodes = document.querySelectorAll("li");
+      for(var x = 0; x<liNodes.length; x++) {
+        liNodes[x].appendChild(domElement);
+      }
+
+      //create an entire dom tree if I pass the element
+      var domElement2b= $("<div>Here is come content<br>Hi there</div>");
+      console.dir(domElement2);
+
+      //document.ready
+      /* $(function(
+        console.log("DOM content loaded");
+      )); */
+
+      // jquery will clone the domElement2 each times
+      //$("li").append(domElement2);
+
+      require(["dojo/dom", "dojo/dom-construct", "dojo/query", "dojo/domReady!"],
+        function (dom, domConstruct, query) {
+
+          var domElement3 = domConstruct.create("div", {
+            innerHTML: "Motel 6"
+          }, dom.byId("placeholder"));
+
+          /*var domElement3 = domConstruct.create("div", {
+            innerHTML: "Motel 6"
+
+            domConstruct.place(domElement3);*/
+        });
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    Intuit Bootcamp
+  </head>
+  <body>
+    <script>
+      "use strict"
+
+      var EXCEEDED_SAVINGS_WITHDRAW_LIMIT = "Exceeded the transaction limit for this account";
+
+      window.Intuit = (function() {
+
+        function inherits(parent, child) {
+
+          child.prototype = Object.create(parent.prototype);
+          child.prototype.constructor = child;
+          child.prototype._super = parent;
+        }
+
+        var intuit = {};
+
+        // returns a child
+        function internalextend(superEntity, options) {
+
+          var defaults = {};
+
+          if(options && options.defaults) {
+            defaults = options.defaults;
+          }
+
+          // Model, collection and events - Entity
+          function Entity(options) {
+
+            if(!options) {
+              options = {};
+            }
+
+            for(var prop in defaults) {
+
+              if(!options.hasOwnProperty(prop)) {
+                options[prop] = defaults[prop];
+              }
+
+            }
+
+            Entity.prototype._super.call(this, options);
+
+          }
+
+          inherits(superEntity, Entity);
+
+          for (var prop in options) {
+            Entity.prototype[prop] = options[prop];
+          }
+
+          // someone wants to extend Entity, they can do that with Entity.extend
+          Entity.extend = function(options) {
+            return internalextend(Entity, options);
+          };
+
+          return Entity;
+
+        };
+
+        function Model(options) {
+          this.attributes = options || {};
+        }
+
+        Model.prototype.get = function(propName) {
+          return this.attributes[propName];
+        };
+
+        Model.prototype.set = function(propName, propVal) {
+          this.attributes[propName] = propVal;
+        };
+
+        Model.extend = function(options) {
+          return internalextend(Model, options);
+        };
+
+        intuit.Model = Model;
+
+        return intuit;
+
+      })();
+
+      var Account = Intuit.Model.extend({
+        defaults: {
+          id: 1,
+          balance: 1000
+        },
+        getCurrentBalance: function() {
+          console.log(this.get("id") + " " + this.get("balance"));
+        },
+        deposit: function(amount) {
+          this.set("balance", (this.get("balance") + amount));
+        },
+        withdraw: function(amount) {
+          this.set("balance", (this.get("balance") - amount));
+        }
+      });
+
+      var Checking = Account.extend({});
+
+      var Savings = Account.extend({
+        defaults: {
+          transactionCount: 0
+        },
+        exceededLimit: function() {
+          if(this.get("transactionCount") >= 6) {
+            console.log(EXCEEDED_SAVINGS_WITHDRAW_LIMIT);
+            return true;
+          }
+          return false;
+        },
+        withdraw: function(amount) {
+          if(!this.exceededLimit()) {
+            this.set("transactionCount", (this.get("transactionCount")+1));
+            Account.prototype.withdraw.call(this, amount);
+          }
+        }
+
+      });
+
+      var s = new Savings({
+        id: 1,
+        balance: 2000
+      });
+
+      console.log("Savings Account Transactions");
+      s.deposit(100);
+      s.getCurrentBalance();
+      s.withdraw(100);
+      s.getCurrentBalance();
+      s.withdraw(100);
+      s.getCurrentBalance();
+      s.withdraw(100);
+      s.getCurrentBalance();
+      s.withdraw(100);
+      s.getCurrentBalance();
+      s.withdraw(100);
+      s.getCurrentBalance();
+      s.withdraw(100);
+      s.getCurrentBalance();
+      s.withdraw(100);
+      s.getCurrentBalance();
+
+      console.log("Checking Account Transactions");
+      var c = new Checking({
+        id: 2,
+        balance: 2000
+      });
+      c.deposit(100);
+      c.getCurrentBalance();
+      c.deposit(100);
+      c.getCurrentBalance();
+      c.withdraw(100);
+      c.getCurrentBalance();
+
+    </script>
+  </body>
+</html>

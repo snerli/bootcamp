@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Intuit Bootcamp</title>
+    <script src="libs/jquery/dist/jquery.js"></script>
+    <script src="libs/dojo/dojo-config.js"></script>
+    <script src="libs/dojo/dojo.js"></script>
+
+  </head>
+  <body>
+
+    <div id="newsFlash" class='news-story'>
+      <h1> Market Crashes!</h1>
+      News Flash: If you own stocks, you are not quite broke.
+      <small title="test">Market Rebounded</small>
+    </div>
+
+    <script>
+
+      // it is a detached dom element
+      var domElement = document.createElement("div");
+      console.dir(domElement);
+
+      //create element
+      var domElement2 = $("<div>");
+      console.dir(domElement2);
+
+      //create an entire dom tree if I pass the element
+      var domElement2b= $("<div>Here is come content<br>Hi there</div>");
+      console.dir(domElement2);
+
+      //document.ready
+      /* $(function(
+        console.log("DOM content loaded");
+      )); */
+
+      require(["dojo/dom", "dojo/dom-construct", "dojo/query", "dojo/domReady!"],
+        function (dom, domConstruct, query) {
+
+          var domElement3 = domConstruct.create("div", {
+            innerHTML: "Motel 6 & Hobee's Rocks!"
+          });
+          console.dir(domElement3);
+
+          var domElement3b = domConstruct.toDom("<div>Here is come content<br>Hi there</div>");
+          console.dir(domElement3b);
+        });
+
+    </script>
+  </body>
+</html>

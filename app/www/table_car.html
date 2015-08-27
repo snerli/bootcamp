@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Intuit Bootcamp</title>
+    <script src="libs/jquery/dist/jquery.js"></script>
+    <script src="libs/dojo/dojo-config.js"></script>
+    <script src="libs/dojo/dojo.js"></script>
+
+  </head>
+  <body>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>Make</th>
+          <th>Color</th>
+          <th>Price</th>
+          <th>Year</th>
+        </tr>
+      </thead>
+    <tbody id="table-body">
+    </tbody>
+    </table>
+
+    <div id="newTable"></div>
+
+    <script>
+
+    function changeButtonToEditSave(tr) {
+      tr = $("button1").closest("tr");
+      var button = document.createElement("button");
+      var buttonText = document.createTextNode("Save");
+      button.appendChild(buttonText);
+      tr.append(button);
+      console.dir(tr);
+      console.log("Click");
+    }
+
+    function onClick() {
+      changeButtonToEditSave();
+    }
+
+    function createEventHandler() {
+      for(var i = 0; i < carArr.length; i++) {
+        var myButton = document.getElementById(("button"+i));
+        myButton.addEventListener("click", onClick);
+        //$(myButton).on("click", onClick);
+      }
+    }
+
+    function createRow(prop) {
+      var cell = document.createElement("td");
+      var cellText = document.createTextNode(prop);
+      cell.appendChild(cellText);
+      return cell;
+    }
+
+      carArr = [
+        {model: "Mazda", make: "Touring", color: "Black", price: "20000", year: "2015"},
+        {model: "Mazda", make: "Grand Touring", color: "Black", price: "25000", year: "2015"},
+        {model: "Mazda", make: "Touring 3", color: "Black", price: "22000",year: "2015"},
+        {model: "Mazda", make: "Grand Touring 3", color: "Black", price: "27000", year: "2015"}
+      ];
+
+            // get the reference for the body
+       var body = document.getElementsByTagName("body")[0];
+
+       // creating all cells
+       for (var i = 0; i < carArr.length; i++) {
+         // creates a table row
+         var row = document.createElement("tr");
+
+          row.appendChild(createRow(carArr[i].model));
+          row.appendChild(createRow(carArr[i].make));
+          row.appendChild(createRow(carArr[i].color));
+          row.appendChild(createRow(carArr[i].price));
+          row.appendChild(createRow(carArr[i].year));
+
+           var button = document.createElement("button");
+           button.innerHTML = "Edit";
+           button.setAttribute("id", ("button" + i));
+           row.appendChild(button);
+
+         // add the row to the end of the table body
+         $("tbody").append(row);
+       }
+       $("table").attr("border", "2");
+
+       createEventHandler();
+
+    </script>
+  </body>
+</html>
+
+<!--
+array data
+
+item needs to have 5 properties
+
+car
+  make
+  Model
+  year
+  price
+  color
+
+6th column - with an edit button
+show input fields in the row
+allow user to edit
+
+change button to save button and cancel button
+save button will update the array abd return the read view
+cancel button will not update array and return teh read view
+
+-->

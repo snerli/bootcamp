@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Intuit Bootcamp</title>
+    <link href="css/site.min.css" rel="stylesheet">
+    <!-- this works when it is present in the index.html-->
+    <!-- <link href="css/site.min.gz.css" rel="stylesheet">  this is for the gzip-->
+    <!-- for 'id's, you have to prefix #, for elements or tags, it is just the name of the tag -->
+    <!-- For classes
+      JS modifies the DOM which matches some rule in the CSS and CSS applies to the object
+      combine ids, classes and element
+    -->
+    <!--
+     Hierarchy selectors
+        div span -
+        span inside a div (direct or indirect children)
+
+        div > span -
+        span inside a div (span is the direct child of div)
+    -->
+    <!--
+      p + span -
+      span element that follows a p (span should be the immediate sibling)
+
+      p ~ span -
+      Any span that has a p behind it
+
+      Should you use hierarchy selectors or class/ids/?
+      - choose class for complex
+      - hierarchy selector for narrow scope like ul li
+
+      Attribute selectors:
+      - all the divs that have the title attribute
+        div[title]
+      - you can just give attribute as well
+        div[title]
+      - With values for attributes
+        div[title="Some Title"]
+      - Attributes that have some string in it
+        div[title*="More"]
+      - Starts with
+        div[title^="Some"]
+      - Ends With
+        div[title$="Title"]
+      - matches when the string is anywhere in the sentence
+        div[title~="Title"]
+      - Matches in the string
+        div[title |= "some"]
+
+      Pseudoselectors
+        li:first-child {} - first-child of the parent element
+        li:last-child {}
+        li:nth-child(expressions) {} - n starts with 1, expressions = 2n, 2n -1, 3n, 4, etc
+        first-of-type, last-of-type
+        span:hover {}
+        span:hover, li:hover {}
+
+        not selector
+        span:not(.my-span) {}
+    -->
+    <style>
+      #second {
+        font-weight: bold;
+      }
+      .test {
+        font-weight: bolder;
+      }
+      div.test {
+
+      }
+      div#second.test {
+
+      }
+
+      span {
+        font-weight: bold;
+      }
+      div span {
+
+      }
+    </style>
+  </head>
+  <body>
+    <div id = "first">First</div>
+    <div id = "second">Second</div>
+    <p id = "third" class="test">Third</p>
+    <div id = "Fourth" class="test">Fourth</div>
+  </body>
+</html>

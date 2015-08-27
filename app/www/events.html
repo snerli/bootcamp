@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    Intuit Bootcamp
+  </head>
+  <body>
+    <script>
+      "use strict"
+
+      window.Intuit = (function() {
+
+        function inherits(parent, child) {
+
+          child.prototype = Object.create(parent.prototype);
+          child.prototype.constructor = child;
+          child.prototype._super = parent;
+        }
+
+        var intuit = {};
+
+        // returns a child
+        function internalextend(superEntity, options) {
+
+          var defaults = {}, initialize = null;
+
+          if(options && options.defaults) {
+            defaults = options.defaults;
+            delete options.defaults;
+          }
+
+          if(options && options.initialize) {
+            initialize = options.initialize;
+            delete options.initialize;
+          }
+
+          // Model, collection and events - Entity
+          function Entity(options) {
+
+            if(!options) {
+              options = {};
+            }
+
+            /*
+            if(defaults && !options) {
+              options = {};
+            }
+            */
+
+            for(var prop in defaults) {
+
+              if(!options.hasOwnProperty(prop)) {
+                options[prop] = defaults[prop];
+              }
+
+            }
+
+            Entity.prototype._super.call(this, options);
+
+            /* If initialize is setup, then call it here */
+            if(initialize) {
+              initialize.call(this);
+            }
+
+          }
+
+          inherits(superEntity, Entity);
+
+          for (var prop in options) {
+            Entity.prototype[prop] = options[prop];
+          }
+
+          // someone wants to extend Entity, they can do that with Entity.extend
+          Entity.extend = function(options) {
+            return internalextend(Entity, options);
+          };
+
+          return Entity;
+
+        };
+
+        function Model(options) {
+          this.attributes = options || {};
+        }
+
+        inherits(Events, Model);
+
+        Model.prototype.get = function(propName) {
+          return this.attributes[propName];
+        };
+
+        Model.prototype.set = function(propName, propVal) {
+          var eventData = {};
+          eventData[propName] = {
+            oldValue: this.attributes[propName],
+            newValue: propVal
+          };
+
+          this.attributes[propName] = propVal;
+          this.trigger("change", eventData);
+        };
+
+        Model.extend = function(options) {
+          return internalextend(Model, options);
+        };
+
+        intuit.Model = Model;
+
+        function Collection(options) {
+
+          this.models = options || [];
+
+        }
+
+        inherits(Events, Collection);
+
+        Collection.prototype.add = function(model) {
+          this.models.push(model);
+        };
+
+        Collection.prototype.forEach = function(fn) {
+          this.models.forEach(fn);
+        };
+
+        Collection.extend = function(options) {
+          return internalextend(Collection, options);
+        };
+
+        intuit.Collection = Collection;
+
+
+        function Events() {
+
+        }
+
+        // what triggers the event
+        Events.prototype.trigger = function(eventName, eventData) {
+
+          if(this.events && this.events[eventName]) {
+            this.events[eventName].forEach(function(eventHandler) {
+              eventHandler(eventData);
+            });
+          }
+
+        };
+
+        // what handles it
+        Events.prototype.on = function(eventName, eventHandler) {
+
+          if(!this.events) {
+            this.events = {};
+          }
+
+          if(!this.events[eventName]) {
+            this.events[eventName] = [];
+          }
+
+          this.events[eventName].push(eventHandler);
+
+        };
+
+        return intuit;
+
+      })();
+
+      /*defaults: {
+        addresses: [] // it will have the same reference for all the persons, one option is to clone
+        // instead you can add initialize function
+        // instead of defaults, you should use initialize
+        /*
+          initialize: function() {
+            this.set("addresses", []);
+        }
+        then handle the initialize in the above code where defaults are initialized
+        */
+      //},
+      var Person = Intuit.Model.extend({
+        initialize: function() {
+          this.set("addresses", []);
+        },
+        addAddress: function(street, city, state, zipCode) {
+          this.get("addresses").push({
+            street: street,
+            city: city,
+            state: state,
+            zipCode: zipCode
+          });
+        },
+        getFullName: function() {
+          console.log(this.get("firstName") + " " + this.get("lastName"));
+        }
+      });
+
+      var p = new Person({
+        firstName: "Bob",
+        lastName: "Smith"
+      });
+
+      var IntuitEmp = Person.extend({
+        getEmpInfo: function() {
+          return this.get("empId") + " " + this.get("lastName") + " " + this.get("firstName");
+        }
+      });
+
+      var e = new IntuitEmp({
+        firstName: "Bob",
+        lastName: "Smith",
+        empId: 123
+      });
+
+      console.log(e.getEmpInfo());
+
+      var e = new IntuitEmp({
+        firstName: "Barack",
+        lastName: "Obama",
+        age: 53,
+        empId: 1
+      });
+
+      e.on("change", function(){
+        console.log("Barack Obama Changed");
+        console.dir(arguments);
+      });
+
+      console.log("Set age to 54");
+      e.set("age", 54);
+
+      e.addAddress("1600 Pennsylvania Ave.", "Washington", "DC", "10000");
+			var e2 = new IntuitEmp({
+				firstName: "Sarah",
+				lastName: "Greene",
+				age: 12,
+				empId: 2
+			});
+
+
+			e2.addAddress("123 Oak Lane", "Martha's Vineyard", "MA", "20000");
+			console.dir(e2);
+			var IntuitEmployees = Intuit.Collection.extend({
+				showMailingList: function() {
+					this.models.forEach(function(emp) {
+						var address = emp.get("addresses")[0];
+						console.log(emp.get("firstName") + " " + emp.get("lastName") + " " +
+							address.street + " " + address.city + " " + address.state + ", " + address.zipCode);
+					})
+				}
+			});
+
+			var iEmps = new IntuitEmployees([e, e2]);
+			iEmps.showMailingList();
+			//iEmps.forEach(function(emp) {
+			//	console.log(emp.getEmpInfo());
+			//})
+
+
+    </script>
+  </body>
+</html>

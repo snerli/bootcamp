@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Intuit Bootcamp</title>
+    <script src="libs/jquery/dist/jquery.js"></script>
+    <script src="js/dojo/dojo-config.js"></script>
+    <script src="js/dojo/dojo.js"></script>
+
+  </head>
+  <body>
+
+    <div id="newsFlash" class='news-story'>
+      News Flash: If you own stocks, you are not quite broke.
+    </div>
+
+    <script>
+
+      // html and dom are not the same
+      // dom and js are very different
+      /*JS - has own GC, has an internal script with its own GC and DOM - has own GC */
+      // built-in
+      var domElement = document.getElementByClassName("new-story");
+      console.dir(domElement);
+      console.dir(domElement[0]);
+
+      //query your dom - jquery, # tag = css selector
+      var divElement = $(".news-story");
+      console.dir(divElement); // jquery wrapped dom element not the actual dom element
+      console.dir(divElement[0]); //
+
+      // using query (css) selector engine. Available on ie9 and not on ie8
+      var domElement2 = document.querySelector(".new-story");
+      console.dir(domElement2);
+      console.dir(domElement2[0]);
+
+      require(["dojo/dom", "dojo/dom-construct", "dom/query", "dojo/domReadey!"],
+        function (dom, donConstruct, query) {
+
+          console.dir(dom);
+          console.dir(query);
+
+          console.dir(arguments);
+
+          var divElement3 = query(".new-story");
+          console.dir(divElement3);
+          console.dir(divElement3[0]);
+
+        });
+
+    </script>
+  </body>
+</html>

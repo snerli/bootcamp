@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Intuit Bootcamp</title>
+    <script src="libs/jquery/dist/jquery.js"></script>
+    <script src="js/dojo/dojo-config.js"></script>
+    <script src="js/dojo/dojo.js"></script>
+
+  </head>
+  <body>
+
+    <div id="newsFlash">
+      News Flash: If you own stocks, you are not quite broke.
+    </div>
+
+    <script>
+
+      // html and dom are not the same
+      // dom and js are very different
+      /*JS - has own GC, has an internal script with its own GC and DOM - has own GC */
+      // built-in
+      var domElement = document.getElementById("newsFlash");
+      console.dir(domElement);
+
+      //query your dom - jquery, # tag = css selector
+      var divElement = $("#newsFlash");
+      console.dir(divElement); // jquery wrapped dom element not the actual dom element
+      console.dir(divElement[0]); //
+
+      // using query (css) selector engine. Available on ie9 and not on ie8
+      var domElement2 = document.querySelector("#newsFlash");
+      console.dir(domElement2);
+
+      require(["dojo/dom", "dojo/dom-construct", "dojo/domReadey!"],
+        function (dom, donConstruct) {
+
+          var divElement3 = dom.byId("newsFlash");
+          console.dir(domElement3);
+
+        });
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    Intuit Bootcamp
+  </head>
+  <body>
+    <script>
+      "use strict"
+
+      var WITHDRAW_AMOUNT = "withdraw";
+      var EXCEEDED_SAVINGS_WITHDRAW_LIMIT = "Exceeded the transaction limit for this account";
+
+      function xtend(AccountType, SuperType) {
+        AccountType.prototype = Object.create(SuperType.prototype);
+        AccountType.prototype.constructor = AccountType;
+        AccountType.prototype._super = SuperType;
+      }
+
+      function Account(id, balance) {
+        this.id = id;
+        this.balance = balance;
+      }
+
+      Account.prototype.returnCurrentBalance = function() {
+        return this.balance;
+      };
+
+      Account.prototype.deposit = function(transactionAmt) {
+        this.balance = this.balance + transactionAmt;
+      }
+
+      Account.prototype.withdraw = function(transactionAmt) {
+        this.balance = this.balance - transactionAmt;
+      }
+
+      Account.prototype.transaction = function(transactionAmt, transactionType) {
+        if (transactionType === WITHDRAW_AMOUNT) {
+          if(transactionAmt <= this.balance) {
+            this.withdraw(transactionAmt);
+          }
+        }
+        else {
+            this.deposit(transactionAmt);
+        }
+      };
+
+      function Checking(id, balance) {
+        Checking.prototype._super.call(this, id, balance);
+      }
+
+      xtend(Checking, Account);
+
+      function Savings(id, balance) {
+        this.transactionCount = 0;
+        Savings.prototype._super.call(this, id, balance);
+      }
+
+      xtend(Savings, Account);
+
+      Savings.prototype.transaction = function(transactionAmt, transactionType) {
+        if(transactionType === WITHDRAW_AMOUNT) {
+          this.transactionCount++;
+          if(this.transactionCount > 6) {
+            console.log(EXCEEDED_SAVINGS_WITHDRAW_LIMIT);
+          }
+          else {
+            this.withdraw(transactionAmt);
+          }
+        }
+        else {
+          this.deposit(transactionAmt);
+        }
+      };
+
+      var savingsAc = new Savings(1, 1000);
+      savingsAc.transaction(100);
+      savingsAc.transaction(100, WITHDRAW_AMOUNT);
+      savingsAc.transaction(100, WITHDRAW_AMOUNT);
+      savingsAc.transaction(100, WITHDRAW_AMOUNT);
+      savingsAc.transaction(100, WITHDRAW_AMOUNT);
+      savingsAc.transaction(100, WITHDRAW_AMOUNT);
+      savingsAc.transaction(100, WITHDRAW_AMOUNT);
+      savingsAc.transaction(100, WITHDRAW_AMOUNT);
+      console.log(savingsAc.returnCurrentBalance());
+      console.dir(savingsAc);
+
+    </script>
+  </body>
+</html>
+
+
+<!--
+Do not use the <br> for layout but use them only in the text
+Inline styles are bad - broswers don't cache html (requires more processing)
+<b> is not bold but it stands for emphasize
+styleless and layoutless, broswer has a default stylesheet and that is applied to the html
+<ol> ordered list (1, 2, 3)
+<ul> unordered list (bullets)
+<li> list item
+<nav> tells the consumer of this content that it is for navigation
+<a href='#'> </a>
+<thead> row header
+<td>, <th>
+<tbody> actual body of the table
+<tfoot>
+<td colspan="2">
+<div> block level content
+<span> generic inline container element
+<img src="https://abc.com/xyz.tif">
+<h1> - header
+<a href=""></a> anchor tag used to refer to different page
+<header>
+<footer> you can have sections and headers
+<nav>
+<article> with article, you can have sections and headers
+<aside> something that is aside the page
+&copy; 2015 copyright information
+get - get the existing record
+post - create a new record
+put - modify the exisiting record
+<form> used to setup a form
+  Eg: <form method="POST" action="index.php">
+        <div>
+          First Name:<input type="text" name="firstname">
+        </div>
+        <div>
+          Last Name:<input type="text" name="lastname">
+        </div>
+        <div>
+          Age:<input type="text" name="age">
+        </div>
+        <div>
+          Email:<input type="text" name="email">
+        </div>
+        <div>
+          State:<select name="state">
+            <option value="CA">California</option>
+            <option value="MA">Massachusetts</option>
+            <option value="TPE">Taipei</option>
+            <option value="VA">Virginia</option>
+          </select>
+        </div>
+        <div>
+          Favorite Color:<select name="favColors" size=5 multiple>
+            <option value="green">Green</option>
+            <option value="white">White</option>
+            <option value="red">Red</option>
+            <option value="saffron">Saffron</option>
+            <option value="yellow">Yellow</option>
+          </select>
+        </div>
+        <div>
+          Intuit Employee:<input type="checkbox" name="intuitEmployee">
+        </div>
+        <div>
+          Methods of Commute
+          Car:<input type="radio" name="methodOfCommute" value="Car">
+          Bus:<input type="radio" name="methodOfCommute" value="Bus">
+          Carpool:<input type="radio" name="methodOfCommute" value="Carpool">
+          Train:<input type="radio" name="methodOfCommute" value="Train">
+          Bike:<input type="radio" name="methodOfCommute" value="Bike">
+        </div>
+        <div>
+          Comments:<textarea name="comments" row = 5 cols = 20></textarea>
+        </div>
+
+        <input type="submit" values="Submit">
+        <input type="button" values="Click Me">
+        <input type="reset" values="Reset">
+        <input type="image" values="This is an Image">
+
+      </form>
+
+      recently they added the follwowing
+
+      <div id="first-name-section">
+      <label for="firstName">First Name:</label>
+      <input type="text" name="firstName" id="firstName">
+      </div>
+      label - name is sent to the server, label is used for reading
+      labels are used along with ids for readability
+
+Additional input types: number,email
+
+* required - basic validation
+* novalidate
+* buttons as div element - it is not picked up by pressing tab (usually blind people use tabs)
+* cover it with anchor tags for buttons as a div element
+
+How specific is your selector compared to other?
+More specific css elements get higher priority
+'id' is the fastest selector in the css
+
+sass - CSS preprocessor
+- No nested selectors in CSS
+
+-->

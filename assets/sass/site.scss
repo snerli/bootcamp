@@ -1,0 +1,65 @@
+$headerColor: deepskyblue;
+$fontColor: seagreen;
+
+$marginfirstName: 50px;
+$marginlastName: 60px;
+$marginEmail: 98px;
+$margintextArea: 70px;
+
+@mixin myFirstmixin ($fontWeight:bold, $fontFamily:monospace, $fontSize:32px) {
+  font-weight: $fontWeight;
+  font-family: $fontFamily;
+  font-size: $fontSize;
+}
+
+.fontColor {
+  color: $fontColor;
+}
+
+body {
+
+  #firstName {
+    margin-left: $marginfirstName;
+  }
+  #lastName {
+    margin-left: $marginlastName;
+  }
+  #email {
+    margin-left: $marginEmail;
+  }
+  #comments {
+    margin-left: $margintextArea;
+  }
+
+  div {
+    &:focus {
+      font-size: 30px;
+    }
+  }
+
+  header {
+    color: $headerColor;
+    font-family: monospace;
+  }
+
+  section {
+    p {
+      @extend .fontColor;
+      @include myFirstmixin($fontWeight:none, $fontSize:16px);
+    }
+
+    ul {
+      @extend .fontColor;
+      @include myFirstmixin($fontWeight:none, $fontSize:16px);
+      li:hover {
+        font-size: 32px;
+      }
+    }
+  }
+
+  div {
+    label {
+      @include myFirstmixin($fontWeight:none, $fontSize:16px);
+    }
+  }
+}

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    Intuit Bootcamp
+  </head>
+  <body>
+    <script>
+      "use strict"
+
+      // prototype inheritance
+
+      var a {
+        name = "Bob"
+      };
+
+      var b = Object.create(a);
+
+      console.log(b.name);
+      console.dir(b);
+
+      b.name = "Scott";
+      console.log(b.name);
+      console.dir(b);
+
+      delete b.name;
+      console.log(b.name);
+      console.dir(b);
+
+      a.name = "Bill";
+      console.log(b.name);
+      console.dir(b);
+
+
+      // example 2 - constructor function
+
+      function Person(firstName, lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+      }
+
+      // prototype of Person function is empty function
+      // p1 inherits from person.prototype
+
+      Person.prototype.getFullName = function() {
+        return this.firstName + " " + this.lastName;
+      };
+
+      var p1 = new Person("Justin", "Hung");
+      console.dir(p1);
+
+      var p2 = new Person("Tim", "Kang");
+      console.dir(p2);
+
+      console.log(Object.getPrototypeOf(p1) === Object.getPrototypeOf(p2));
+
+      //
+      function IntuitEmployee(firstName, lastName, empId) {
+
+        this.empId = empId;
+        IntuitEmployee.prototype._super.call(this, firstName, lastName);
+
+      }
+
+      IntuitEmployee.prototype = Object.create(Person.prototype);
+      IntuitEmployee.prototype.constructor = IntuitEmployee;
+      IntuitEmployee.prototype._super = Person;
+
+      IntuitEmployee.prototype.getEmpInfo = function() {
+        return this.empId + " " + this.lastName + " " + this.firstName;
+      };
+
+      var intuitEmp = new IntuitEmployee("Justin", "Hung", 1);
+      console.log(intuitEmp);
+      console.log(intuitEmp.getFullName());
+      console.log(intuitEmp.getEmpInfo());
+
+
+
+    </script>
+  </body>
+</html>
+
+
+<!--
+Do not use the <br> for layout but use them only in the text
+Inline styles are bad - broswers don't cache html (requires more processing)
+<b> is not bold but it stands for emphasize
+styleless and layoutless, broswer has a default stylesheet and that is applied to the html
+<ol> ordered list (1, 2, 3)
+<ul> unordered list (bullets)
+<li> list item
+<nav> tells the consumer of this content that it is for navigation
+<a href='#'> </a>
+<thead> row header
+<td>, <th>
+<tbody> actual body of the table
+<tfoot>
+<td colspan="2">
+<div> block level content
+<span> generic inline container element
+<img src="https://abc.com/xyz.tif">
+<h1> - header
+<a href=""></a> anchor tag used to refer to different page
+<header>
+<footer> you can have sections and headers
+<nav>
+<article> with article, you can have sections and headers
+<aside> something that is aside the page
+&copy; 2015 copyright information
+get - get the existing record
+post - create a new record
+put - modify the exisiting record
+<form> used to setup a form
+  Eg: <form method="POST" action="index.php">
+        <div>
+          First Name:<input type="text" name="firstname">
+        </div>
+        <div>
+          Last Name:<input type="text" name="lastname">
+        </div>
+        <div>
+          Age:<input type="text" name="age">
+        </div>
+        <div>
+          Email:<input type="text" name="email">
+        </div>
+        <div>
+          State:<select name="state">
+            <option value="CA">California</option>
+            <option value="MA">Massachusetts</option>
+            <option value="TPE">Taipei</option>
+            <option value="VA">Virginia</option>
+          </select>
+        </div>
+        <div>
+          Favorite Color:<select name="favColors" size=5 multiple>
+            <option value="green">Green</option>
+            <option value="white">White</option>
+            <option value="red">Red</option>
+            <option value="saffron">Saffron</option>
+            <option value="yellow">Yellow</option>
+          </select>
+        </div>
+        <div>
+          Intuit Employee:<input type="checkbox" name="intuitEmployee">
+        </div>
+        <div>
+          Methods of Commute
+          Car:<input type="radio" name="methodOfCommute" value="Car">
+          Bus:<input type="radio" name="methodOfCommute" value="Bus">
+          Carpool:<input type="radio" name="methodOfCommute" value="Carpool">
+          Train:<input type="radio" name="methodOfCommute" value="Train">
+          Bike:<input type="radio" name="methodOfCommute" value="Bike">
+        </div>
+        <div>
+          Comments:<textarea name="comments" row = 5 cols = 20></textarea>
+        </div>
+
+        <input type="submit" values="Submit">
+        <input type="button" values="Click Me">
+        <input type="reset" values="Reset">
+        <input type="image" values="This is an Image">
+
+      </form>
+
+      recently they added the follwowing
+
+      <div id="first-name-section">
+      <label for="firstName">First Name:</label>
+      <input type="text" name="firstName" id="firstName">
+      </div>
+      label - name is sent to the server, label is used for reading
+      labels are used along with ids for readability
+
+Additional input types: number,email
+
+* required - basic validation
+* novalidate
+* buttons as div element - it is not picked up by pressing tab (usually blind people use tabs)
+* cover it with anchor tags for buttons as a div element
+
+How specific is your selector compared to other?
+More specific css elements get higher priority
+'id' is the fastest selector in the css
+
+sass - CSS preprocessor
+- No nested selectors in CSS
+
+-->

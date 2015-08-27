@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    Intuit Bootcamp
+  </head>
+  <body>
+    <script>
+      "use strict"
+
+      window.Intuit = (function() {
+
+        function inherits(parent, child) {
+
+          child.prototype = Object.create(parent.prototype);
+          child.prototype.constructor = child;
+          child.prototype._super = parent;
+        }
+
+        var intuit = {};
+
+        // returns a child
+        function internalextend(superEntity, options) {
+
+          var defaults = {};
+
+          if(options && options.defaults) {
+            defaults = options.defaults;
+          }
+
+          // Model, collection and events - Entity
+          function Entity(options) {
+
+            if(!options) {
+              options = {};
+            }
+
+            for(var prop in defaults) {
+
+              if(!options.hasOwnProperty(prop)) {
+                options[prop] = defaults[prop];
+                delete options.defaults;
+              }
+
+            }
+
+            Entity.prototype._super.call(this, options);
+
+            /* If initialize is setup, then call it here
+              if(initialize) {
+                initialize.call(this);
+            }
+            */
+
+          }
+
+          inherits(superEntity, Entity);
+
+          for (var prop in options) {
+            Entity.prototype[prop] = options[prop];
+          }
+
+          // someone wants to extend Entity, they can do that with Entity.extend
+          Entity.extend = function(options) {
+            return internalextend(Entity, options);
+          };
+
+          return Entity;
+
+        };
+
+        function Model(options) {
+          this.attributes = options || {};
+        }
+
+        Model.prototype.get = function(propName) {
+          return this.attributes[propName];
+        };
+
+        Model.prototype.set = function(propName, propVal) {
+          this.attributes[propName] = propVal;
+        };
+
+        Model.extend = function(options) {
+          return internalextend(Model, options);
+        };
+
+        intuit.Model = Model;
+
+        return intuit;
+
+      })();
+
+      var Person = Intuit.Model.extend({
+          defaults: {
+            addresses: [] // it will have the same reference for all the persons, one option is to clone
+            // instead you can add initialize function
+            // instead of defaults, you should use initialize
+            /*
+              initialize: function() {
+                this.set("addresses", []);
+            }
+            then handle the initialize in the above code where defaults are initialized
+            */
+          },
+          addAddress: function(street, city, state, zipCode) {
+            this.get("addresses").push({
+              street: street,
+              city: city,
+              state: state,
+              zipCode: zipCode
+            });
+          },
+          lastName: "John",
+          firstName: "Doe",
+          age: 32,
+          empId: 123
+        },
+        getFullName: function() {
+          console.log(this.get("firstName") + " " + this.get("lastName"));
+        }
+      });
+
+      var p = new Person({
+        firstName: "Bob",
+        lastName: "Smith"
+      });
+
+      var IntuitEmp = Person.extend({
+        getEmpInfo: function() {
+          return this.get("empId") + " " + this.get("lastName") + " " + this.get("firstName");
+        }
+      });
+
+      var e = new IntuitEmp({
+        firstName: "Bob",
+        lastName: "Smith",
+        empId: 123
+      });
+
+      console.log(e.getEmpInfo());
+
+
+    </script>
+  </body>
+</html>

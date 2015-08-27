@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    Intuit Bootcamp
+  </head>
+  <body>
+    <script>
+      var x = 0, y = 0, funcs=[];
+
+      for(;x<5;x++) {
+
+        // immediately invoked function declaration
+        (function() {
+          var tt = x;
+          funcs.push(function() { console.log(tt); });
+        })();
+      }
+
+      for(;y<5;y++) {
+        funcs[y]();
+      }
+    </script>
+  </body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    Intuit Bootcamp
+  </head>
+  <body>
+    <script>
+      "use strict"
+
+      function outer() {
+
+        var that = this;
+
+        function inner() {
+          console.log(that);
+        }
+
+        // this and argument donot pass through on closure. There will be one local copy for each
+
+        inner();
+      }
+
+      outer.call({id: 3});
+
+    </script>
+  </body>
+</html>
+
+
+
+// prototype inheritance
+
+var a {
+  name = "Bob"
+};
+
+var b = Object.create(a);
+
+console.log(b.name);
+console.dir(b);
+
+b.name = "Scott";
+console.log(b.name);
+console.dir(b);
+
+delete b.name;
+console.log(b.name);
+console.dir(b);
+
+a.name = "Bill";
+console.log(b.name);
+console.dir(b);
+
+
+// example 2 - constructor function
+
+function Person(firstName, lastName) {
+  this.firstName = firstName;
+  this.lastName = lastName;
+}
+
+// prototype of Person function is empty function
+// p1 inherits from person.prototype
+
+Person.prototype.getFullName = function() {
+  return this.firstName + " " + this.lastName;
+};
+
+var p1 = new Person("Justin", "Hung");
+console.dir(p1);
+
+var p2 = new Person("Tim", "Kang");
+console.dir(p2);
+
+console.log(Object.getPrototypeOf(p1) === Object.getPrototypeOf(p2));
+
+//
+function IntuitEmployee(firstName, lastName, empId) {
+
+  this.empId = empId;
+  IntuitEmployee.prototype._super.call(this, firstName, lastName);
+
+}
+
+IntuitEmployee.prototype = Object.create(Person.prototype);
+IntuitEmployee.prototype.constructor = IntuitEmployee;
+IntuitEmployee.prototype._super = Person;
+
+IntuitEmployee.prototype.getEmpInfo = function() {
+  return this.empId + " " + this.lastName + " " + this.firstName;
+};
+
+var intuitEmp = new IntuitEmployee("Justin", "Hung", 1);
+console.log(intuitEmp);
+console.log(intuitEmp.getFullName());
+console.log(intuitEmp.getEmpInfo());

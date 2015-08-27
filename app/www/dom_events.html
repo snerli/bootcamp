@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Intuit Bootcamp</title>
+    <script src="libs/jquery/dist/jquery.js"></script>
+    <script src="libs/dojo/dojo-config.js"></script>
+    <script src="libs/dojo/dojo.js"></script>
+
+  </head>
+  <body>
+
+    <table>
+      <tr>
+        <td>Name</td>
+        <td>Desc</td>
+        <td>Date</td>
+        <td><button id="myButton">Click Me</button></td>
+      </tr>
+    </table>
+
+    <script>
+
+    function myFunc() {
+      console.log("I was clicked");
+    }
+
+    var myButton = document.getElementById("myButton");
+    myButton.addEventListener("click", myFunc);
+
+    //stacking
+    /*
+    myButton.addEventListener("click", myFunc1);
+    myButton.addEventListener("click", myFunc2);
+    myButton.addEventListener("click", myFunc3);
+    */
+    myButton.removeEventListener("click", myFunc);
+
+    $("#myButton").on("click", myFunc);
+    $("#myButton").off("click", myFunc);
+
+    require(["dojo/dom", "dojo/dom-construct", "dojo/query", "dojo/on", "dojo/domReady!"],
+      function (dom, domConstruct, query, on) {
+        var buttonEvent = on(dom.byId("myButton"), "click", myFunc);
+        buttonEvent.remove();
+        //console.dir($("#myButton").closest("tr"));
+      });
+
+    </script>
+  </body>
+</html>
